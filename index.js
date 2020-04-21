@@ -76,19 +76,20 @@ Parameters:
  * callback function getYears
  */
 
-function getWinnersByYear(callback, callback2) {
+function getAllWinners(winners, years, data) {
 
-    const years = getYears(getFinals, fifaData);
-    const winners = getWinners(getFinals, fifaData);
-    const yearFinals = [];
-        years.forEach(function(item, i){
-                yearFinals.push('In ${item'}, ${winners[i]} won the world cup!')';
+    const year = getYears(getFinals, data);
+    const winner = getWinners(getFinals, data);
+    const allWinners = [];
+
+       getFinals(data).forEach(function(item, i){
+                allWinners.push(`In ${year[i]}, ${winner[i]} won the world cup!`);
         });
 
-        return yearFinals;
+        return allWinners;
 };
 
-console.log(getWinnersByYear())
+console.log(getAllWinners(getWinners, getYears, fifaData))
 
 
 /* Task 7: Create a function called `getCountryWins` that takes the parameters `data` and `team initials` and returns the number of world cup wins that country has had. 
@@ -96,13 +97,21 @@ console.log(getWinnersByYear())
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
+ 
+function getCountryWins(data, ti) {
+    
+    var winners = getWinners(getFinals, data);
+    winners = winners.map(function(x){
+        return x.substring(0, 3).toUpperCase();
+    });
+    let count = winners.reduce(function(z, item){
 
-    /* code here */
-
+       return z + (item === ti.toUpperCase());
+    }, 0);
+    return count; 
 };
 
-getCountryWins();
+console.log(getCountryWins(fifaData, 'ARG'));
 
 
 /* Task 8: Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
