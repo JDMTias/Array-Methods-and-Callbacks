@@ -115,14 +115,45 @@ console.log(getCountryWins(fifaData, 'ARG'));
 
 
 /* Task 8: Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
+//  need list of everysingle team, how many goals every team Scored, how many games every team played in, get their average, compare teams to see who has highest average goals, return that team.
 
-function getGoals(/* code here */) {
 
-    /* code here */
+function getGoals(data) {
+    let teamList = [];
+    let teamGoals = [];
+    let highGoalAvg = 0;
+    let winner 
 
+    data.forEach(function(item){
+        if (!teamList.includes(item['Home Team Name'])){
+            teamList.push(item['Home Team Name']);
+        }else if (!teamList.includes(item['Away Team Name'])){
+            teamList.push(item['Away Team Name']);
+        }
+    });
+
+    teamList.forEach(function(team){
+        let goalScored = 0;
+        let gamesPlayed = 0;
+
+        data.forEach(function(match){
+            if (match['Home Team Name'] === team){
+                match['Home Team Goals'] += goalScored;
+                gamesPlayed += 1;
+            }else if (match['Away Team Name'] === team){
+                match['Away Team Goals'] += goalScored;
+                gamesPlayed += 1;
+            };
+        }); 
+
+        teamGoals.push(goalScored/gamesPlayed)
+    });
+    console.log(teamList);
+    console.log(teamGoals);
+    // create a for loop compares each team highest average goal scored
 };
 
-getGoals();
+getGoals(fifaData);
 
 
 /* Task 9: Write a function called badDefense() that accepts a parameter `data` and calculates the team with the most goals scored against them per appearance (average goals against) in the World Cup finals */
